@@ -1,5 +1,5 @@
 # react-hangman
-Hangman game with react
+Hangman game with react, Find demo <a href="http://ozluy.github.io/projects/react-hangman">here</a>!
 
 #### CodePen
 You can also find it <a href="http://codepen.io/ozluy/pen/QEbgzx" >here </a> but there are bugs with Codepen according to **hotkey**
