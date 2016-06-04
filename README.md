@@ -20,3 +20,6 @@ You can also find it <a href="http://codepen.io/ozluy/pen/QEbgzx" >here </a> but
 
 #### run project
 `npm start`
+
+#### Open browser and type
+`localhost:1453`
