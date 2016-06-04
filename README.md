@@ -9,6 +9,7 @@ You can also find it <a href="http://codepen.io/ozluy/pen/QEbgzx" >here </a> but
 - SASS(on CodePen page) / SCSS (local)
 - webpack
 - gulp
+- Axios (for http calls)
 
 # guide
 
