@@ -1,5 +1,6 @@
 var path = require('path');
 var webpack = require('webpack');
+
 module.exports =
 {
 	entry: './src/main.js',
@@ -22,6 +23,10 @@ module.exports =
 				query: {
 					presets: [ 'react','es2015']
 				}
+			},
+			{
+				test: /\.scss$/,
+				loaders: ['style', 'css', 'sass']
 			}
 		]
 	},
