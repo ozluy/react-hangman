@@ -8,7 +8,6 @@ import FailBoxMenu from './components/FailBoxMenu';
 import Gallow from './components/Gallow';
 import GameResult from './components/GameResult';
 import Man from './components/Man';
-import RightBlueTriangle from './components/RightBlueTriangle';
 
 
 export default class App extends React.Component {
@@ -98,7 +97,7 @@ export default class App extends React.Component {
 
         </AnswerBoxMenu>
 
-        <RightBlueTriangle />
+        <div className="right-blue-triangle"></div>
         <GameResult
           title={this.state.resultBox.title}
           rootClass={this.state.resultBox.disabled}
