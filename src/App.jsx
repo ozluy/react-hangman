@@ -268,9 +268,7 @@ export default class App extends React.Component {
       leftFootVisibility: 'hidden',
       rightFootVisibility: 'hidden', //Human
       resultBox: {
-        disabled: 'disabled',
-        title: 'Hangman',
-        buttonLabel: 'Start Game'
+        disabled: 'disabled'
       },
       failedLetters: [],
       correctLetters: []
