@@ -181,9 +181,11 @@ export default class App extends React.Component {
       }
     })
       .then(function (response) {
-        console.log("you got word from API!");
+        console.log("you got word from API:", response.data.word);
         let wordArr = response.data.word.split('');
-         
+        wordArr.map(item => {if(item === '-'){
+          wordArr.splice(wordArr.indexOf('-'), 1)
+        }});
         _this.setState({
           wordFromAPI: wordArr
         });
