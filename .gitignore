@@ -1,3 +1,5 @@
+# Local History Files
+*.history
 # Logs
 logs
 *.log
