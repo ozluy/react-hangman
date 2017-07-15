@@ -12,9 +12,9 @@
     "axios": "^0.12.0",
     "gulp-rename": "^1.2.2",
     "gulp-sass": "^2.3.1",
-    "react": "^15.1.0",
-    "react-dom": "^15.1.0",
-    "react-hotkey": "^0.6.0"
+    "react": "^15.5.0",
+    "react-dom": "^15.5.0",
+    "react-hotkey": "^0.7.0"
   },
   "devDependencies": {
     "babel-core": "^6.9.1",

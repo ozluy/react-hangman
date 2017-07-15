@@ -13,7 +13,7 @@ export default class GameResult extends React.Component {
 }
 GameResult.propTypes = {
   rootClass: React.PropTypes.string.isRequired,
-  title: React.PropTypes.string.isRequired,
-  buttonLabel: React.PropTypes.string.isRequired,
+  title: React.PropTypes.string,
+  buttonLabel: React.PropTypes.string,
   buttonAction: React.PropTypes.func
 };

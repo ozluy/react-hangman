@@ -2,7 +2,7 @@ import React from 'react';
 export default class Man extends React.Component {
 
   render(){
-    let styles = {
+    const styles = {
       head: { visibility: this.props.headVisible },
       neck: { visibility: this.props.neckVisible },
       corpus: { visibility: this.props.corpusVisible },
