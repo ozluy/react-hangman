@@ -5,6 +5,77 @@ export const Man = styled.div`
   margin: 70px 0 0 77.5px;
   width: 100px;
 `
+export const Hair = styled.div`
+  width: 100%;
+  height: 15px;
+  position: absolute;
+  background-color: var(--color-hair);
+  border-radius: 50% 0% 100% 0%;
+`
+export const Eye = styled.div`
+  width: 15px;
+  height: 20px;
+  background-color: var(--color-eye);
+  border-radius: 50%;
+  margin-top: 35px;
+  position: absolute;
+  border: solid 5px var(--color-white);
+  left: 15px;
+
+  ${({ right }) =>
+    right &&
+    css`
+      left: auto;
+      right: 15px;
+    `};
+`
+
+export const Ear = styled.div`
+  width: 15px;
+  height: 20px;
+  background-color: var(--color-ear);
+  top: 40px;
+  position: absolute;
+  border-radius: 40% 40%;
+  left: -15px;
+
+  ${({ right }) =>
+    right &&
+    css`
+      left: auto;
+      right: -15px;
+    `};
+`
+export const Nose = styled.div`
+  top: 50px;
+  width: 15px;
+  height: 20px;
+  background-color: var(--color-nose);
+  left: 0;
+  right: 0;
+  position: absolute;
+  margin: 0 auto;
+  border-radius: 100% 100% 50% 50%;
+`
+export const Mouth = styled.div`
+  width: 40px;
+  border: solid 5px var(--color-white);
+  left: 0;
+  right: 0;
+  position: absolute;
+  margin: 0 auto;
+  top: 75px;
+  border-radius: 0 0 50% 50%;
+
+  ${({ sad }) =>
+    sad &&
+    css`
+      border-radius: 50% 50% 0 0;
+      height: 20px;
+      border-width: 10px 0 0 0;
+    `};
+`
+
 export const Head = styled.div`
   position: absolute;
   z-index: 2;
@@ -12,12 +83,10 @@ export const Head = styled.div`
   top: 0;
   left: 0;
   right: 0;
-  width: 96px;
+  width: 80px;
   height: 106px;
-  background-image: url('https://raw.githubusercontent.com/ozluy/ozluy.github.io/master/source/head.png');
-  background-size: 96px 106px;
-  background-repeat: no-repeat;
-  background-position: center center;
+  background-color: var(--color-humanbody);
+  border-radius: 30% 30% 50% 50%;
 `
 export const Neck = styled.div`
   position: absolute;

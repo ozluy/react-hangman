@@ -69,10 +69,9 @@ export default class App extends React.Component {
     const keyChar = event.key
     event.preventDefault()
     const { wordFromAPI, failedLetters, correctLetters, word } = this.state
-
     if (
       wordFromAPI.length > 0 &&
-      'qwertyuiopasdfghjklzxcvbnm'.indexOf(keyChar) > -1
+      'qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM'.indexOf(keyChar) > -1
     ) {
       if (
         !failedLetters.find(x => x === keyChar) &&
@@ -95,15 +94,14 @@ export default class App extends React.Component {
             this.setState({
               resultBox: {
                 disabled: false,
-                title: `Game Over (word: ${word})`,
+                title: `Game Over { word: ${word} }`,
                 buttonLabel: 'Restart Game',
               },
             })
-          } else {
-            this.setState({
-              failedLetters: failedLetters.concat([keyChar]),
-            })
           }
+          this.setState({
+            failedLetters: failedLetters.concat([keyChar]),
+          })
         }
       }
     }
