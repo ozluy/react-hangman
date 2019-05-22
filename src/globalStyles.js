@@ -12,6 +12,10 @@ export default createGlobalStyle`
         --color-appbg: #F5F5F5;
         --color-white: #FFFFFF;
         --color-yellow: #FFB800;
+        --color-eye: #010000;
+        --color-ear: #FFCD72;
+        --color-hair: #000;
+        --color-nose: #12A56B;
         --font-size-default: 14px;
         --font-size-large: 36px;
     }

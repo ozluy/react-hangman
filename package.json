@@ -18,6 +18,7 @@
   "eslintConfig": {
     "extends": "react-app"
   },
+  "homepage": "http://ozluy.github.io/projects/react-hangman",
   "browserslist": {
     "production": [
       ">0.2%",

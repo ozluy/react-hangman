@@ -1,12 +1,35 @@
 import React from 'react'
-import { Man, Head, Neck, Arm, Hand, Corpus, Leg, Chest, Foot } from './styled'
+import {
+  Man,
+  Head,
+  Ear,
+  Hair,
+  Eye,
+  Nose,
+  Mouth,
+  Neck,
+  Arm,
+  Hand,
+  Corpus,
+  Leg,
+  Chest,
+  Foot,
+} from './styled'
 
-const VisibilitySetter = ({ visible, component: Component, ...rest }) => 
+const VisibilitySetter = ({ visible, component: Component, ...rest }) =>
   visible ? <Component {...rest} /> : null
 
 export default ({ failedLetterCount }) => (
   <Man>
-    <VisibilitySetter visible={failedLetterCount >= 1} component={Head} />
+    <VisibilitySetter visible={failedLetterCount >= 1} component={Head}>
+      <Hair />
+      <Eye />
+      <Eye right />
+      <Ear />
+      <Ear right />
+      <Nose />
+      <Mouth sad={failedLetterCount >= 11} />
+    </VisibilitySetter>
     <VisibilitySetter visible={failedLetterCount >= 2} component={Neck} />
     <VisibilitySetter visible={failedLetterCount >= 3} component={Corpus}>
       <VisibilitySetter visible={failedLetterCount >= 3} component={Chest}>
@@ -44,6 +67,6 @@ export default ({ failedLetterCount }) => (
           />
         </VisibilitySetter>
       </VisibilitySetter>
-    </VisibilitySetter >
+    </VisibilitySetter>
   </Man>
 )
