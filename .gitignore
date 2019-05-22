@@ -1,5 +1,6 @@
 # Local History Files
 *.history
+build
 # Logs
 logs
 *.log
