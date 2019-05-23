@@ -1,78 +1,37 @@
-import React from 'react'
+import React, { useState, useRef } from 'react'
 import AnswerBox from './components/AnswerBox'
 import FailBox from './components/FailBox'
 import Result from './components/Result'
 import Human from './components/Human'
-import { Gallow, DownPipe, RightBlueTriangle, Input } from './styled'
+import {
+  Gallow,
+  DownPipe,
+  RightBlueTriangle,
+  Input,
+  AppWrapper,
+} from './styled'
 
-export default class App extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      wordFromAPI: [],
-      playing: true,
-      resultBox: {
-        disabled: false,
-        title: 'Hangman',
-        buttonLabel: 'Start Game',
-      },
+export default () => {
+  const [wordFromAPI, setWordFromAPI] = useState([])
+  const [resultBox, setResultBox] = useState({
+    disabled: false,
+    title: 'Hangman',
+    buttonLabel: 'Start Game',
+  })
+  const [failedLetters, setFailedLetters] = useState([])
+  const [correctLetters, setCorrectLetters] = useState([])
+  const [word, setWord] = useState('')
+  const inputRef = useRef(null)
 
-      failedLetters: [],
-      correctLetters: [],
-    }
-    this.inputRef = React.createRef()
-  }
-
-  componentDidMount() {
-    this.inputRef.current.focus()
-  }
-
-  render() {
-    const {
-      failedLetters,
-      correctLetters,
-      wordFromAPI,
-      resultBox,
-      playing,
-    } = this.state
-    return (
-      <>
-        <Gallow>
-          <DownPipe />
-          <Input
-            ref={this.inputRef}
-            onKeyDown={this.handOnKeyPress}
-            onFocus={() => this.setState({ playing: true })}
-            // onBlur={() => this.setState({ playing: false })}
-          />
-        </Gallow>
-        <Human failedLetterCount={failedLetters.length} />
-
-        <FailBox failedLetters={failedLetters} />
-        <AnswerBox
-          wordFromAPI={wordFromAPI}
-          correctLetters={correctLetters}
-          spaces={this.emptyBoxList()}
-        />
-
-        <RightBlueTriangle />
-        <Result
-          title={playing ? resultBox.title : 'Game paused'}
-          disabled={resultBox.disabled}
-          buttonLabel={playing ? resultBox.buttonLabel : 'Continue Playing'}
-          buttonAction={playing ? this.startGame : () => this.continueGame}
-        />
-      </>
-    )
-  }
-  handOnKeyPress = event => {
-    const keyChar = event.key
+  const handOnKeyPress = event => {
+    let keyChar = event.key
     event.preventDefault()
-    const { wordFromAPI, failedLetters, correctLetters, word } = this.state
     if (
       wordFromAPI.length > 0 &&
-      'qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM'.indexOf(keyChar) > -1
+      'qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM'.indexOf(keyChar) >
+        -1
     ) {
+      keyChar = keyChar.toUpperCase()
       if (
         !failedLetters.find(x => x === keyChar) &&
         !correctLetters.find(x => x === keyChar)
@@ -82,34 +41,27 @@ export default class App extends React.Component {
           if (keyChar === wordFromAPI[i]) {
             count++
             const newCorrectLetters = correctLetters.concat([keyChar])
-            this.setState({
-              correctLetters: newCorrectLetters,
-            })
-            this.countCorrectLetters(newCorrectLetters)
+            setCorrectLetters(newCorrectLetters)
+            countCorrectLetters(newCorrectLetters)
             return
           }
         }
         if (count === 0) {
           if (failedLetters.length === 10) {
-            this.setState({
-              resultBox: {
-                disabled: false,
-                title: `Game Over { word: ${word} }`,
-                buttonLabel: 'Restart Game',
-              },
+            setResultBox({
+              disabled: false,
+              title: `Game Over { word: ${word} }`,
+              buttonLabel: 'Restart Game',
             })
           }
-          this.setState({
-            failedLetters: failedLetters.concat([keyChar]),
-          })
+          setFailedLetters(failedLetters.concat([keyChar]))
         }
       }
     }
   }
 
-  emptyBoxList = () => {
+  const emptyBoxList = () => {
     let arrayOfSpace = []
-    const { wordFromAPI } = this.state
     if (wordFromAPI.length > 0) {
       const arraySize = wordFromAPI.length
       for (let x = 0; x < 12 - arraySize; x++) {
@@ -119,25 +71,19 @@ export default class App extends React.Component {
     return arrayOfSpace
   }
 
-  startGame = () => {
-    this.setState({
-      resultBox: {
-        disabled: true,
-      },
-      failedLetters: [],
-      correctLetters: [],
-      wordFromAPI: [],
-      word: '',
+  const startGame = () => {
+    setResultBox({
+      disabled: true,
     })
-    this.getDataFromAPI()
-    this.inputRef.current.focus()
-  }
-  continueGame = () => {
-    this.inputRef.current.focus()
+    setFailedLetters([])
+    setCorrectLetters([])
+    setWordFromAPI([])
+    setWord('')
+    getDataFromAPI()
+    inputRef.current.focus()
   }
 
-  getDataFromAPI() {
-    const _this = this
+  const getDataFromAPI = () => {
     const params = {
       hasDictionaryDef: true,
       minCorpusCount: 0,
@@ -154,39 +100,34 @@ export default class App extends React.Component {
     fetch(url, {
       method: 'GET',
     })
-      .then(function(response) {
-        return response.json()
-      })
-      .then(function(response) {
-        let wordArr = response.word.split('')
+      .then(response => response.json())
+      .then(response => {
+        const responseWord = response.word
+        let wordArr = responseWord.toUpperCase().split('')
         wordArr.map(item => {
           item === '-' && wordArr.splice(wordArr.indexOf('-'), 1)
           item === ' ' && wordArr.splice(wordArr.indexOf(' '), 1)
           return item
         })
-        _this.setState({
-          wordFromAPI: wordArr,
-          word: response.word,
-        })
+
+        setWordFromAPI(wordArr)
+        setWord(responseWord)
         return response.status
       })
   }
 
-  countCorrectLetters = correctLetters => {
-    const { wordFromAPI } = this.state
-    let uniqueLetters = this.filterUniqueItems(wordFromAPI)
+  const countCorrectLetters = correctLetters => {
+    let uniqueLetters = filterUniqueItems(wordFromAPI)
     if (correctLetters.length === uniqueLetters.length) {
-      this.setState({
-        resultBox: {
-          disabled: false,
-          title: '★ You Won! ★',
-          buttonLabel: 'Restart Game',
-        },
+      setResultBox({
+        disabled: false,
+        title: '★ You Won! ★',
+        buttonLabel: 'Restart Game',
       })
     }
   }
 
-  filterUniqueItems = items => {
+  const filterUniqueItems = items => {
     const obj = {},
       uniqueItems = []
     for (var i = 0, l = items.length; i < l; ++i) {
@@ -198,4 +139,34 @@ export default class App extends React.Component {
     }
     return uniqueItems
   }
+
+  return (
+    <AppWrapper>
+      <Gallow>
+        <DownPipe />
+        <Input
+          ref={inputRef}
+          onKeyDown={handOnKeyPress}
+          onFocus={() => inputRef.current.focus()}
+          onBlur={() => inputRef.current.focus()}
+        />
+      </Gallow>
+      <Human failedLetterCount={failedLetters.length} />
+
+      <FailBox failedLetters={failedLetters} />
+      <AnswerBox
+        wordFromAPI={wordFromAPI}
+        correctLetters={correctLetters}
+        spaces={emptyBoxList()}
+      />
+
+      <RightBlueTriangle />
+      <Result
+        title={resultBox.title}
+        disabled={resultBox.disabled}
+        buttonLabel={resultBox.buttonLabel}
+        buttonAction={startGame}
+      />
+    </AppWrapper>
+  )
 }

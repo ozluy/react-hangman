@@ -1,5 +1,14 @@
 import styled from 'styled-components'
 
+export const AppWrapper = styled.main`
+  position: relative;
+  overflow: hidden;
+  height: 500px;
+  width: 900px;
+  background-color: var(--color-appbg);
+  border-radius: 5px;
+`
+
 export const Gallow = styled.div`
   position: relative;
   width: 150px;

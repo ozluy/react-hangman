@@ -19,24 +19,29 @@ export default createGlobalStyle`
         --font-size-default: 14px;
         --font-size-large: 36px;
     }
+
+    html{
+        height: 100%;
+        width: 100%;
+    }
+    
     body {
         font-weight: bold;
         font-size: var(--font-size-default);
         background-color: var(--color-bodybg);
-        padding: 50px;
         margin: 0;
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
+        height: 100%;
+        width: 100%;
     }
 
     #root {
-        position: relative;
-        overflow: hidden;
-        height: 500px;
-        width: 900px;
-        background-color: var(--color-appbg);
-        margin: 0 auto;
-        border-radius: 5px;
+       display: flex;
+       justify-content: center;
+       align-items: center;
+       height: 100%;
+       width: 100%;
     }
 `
