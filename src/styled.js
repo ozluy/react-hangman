@@ -9,6 +9,13 @@ export const AppWrapper = styled.main`
   border-radius: 5px;
 `
 
+export const GameInstruction = styled.p`
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  margin: 0;
+`
+
 export const Gallow = styled.div`
   position: relative;
   width: 150px;

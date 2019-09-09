@@ -10,6 +10,7 @@ import {
   RightBlueTriangle,
   Input,
   AppWrapper,
+  GameInstruction,
 } from './styled'
 
 export default () => {
@@ -179,6 +180,8 @@ export default () => {
 
   return (
     <AppWrapper>
+      <GameInstruction>Press any keys (letters) to play.</GameInstruction>
+
       <Gallow>
         <DownPipe />
         <Input
