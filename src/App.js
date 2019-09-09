@@ -56,6 +56,7 @@ export default () => {
               title: `Game Over { word: ${word} }`,
               buttonLabel: 'Restart Game',
             })
+            setIsGameOver(true)
           }
           setFailedLetters(failedLetters.concat([keyChar]))
         }
