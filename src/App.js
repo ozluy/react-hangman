@@ -1,4 +1,5 @@
 import React, { useState, useRef } from 'react'
+import { Button } from './components/Result/styled'
 import AnswerBox from './components/AnswerBox'
 import FailBox from './components/FailBox'
 import Result from './components/Result'
@@ -13,6 +14,8 @@ import {
 
 export default () => {
   const [wordFromAPI, setWordFromAPI] = useState([])
+  const [isPaused, setIsPaused] = useState(false)
+  const [isGameOver, setIsGameOver] = useState(false)
   const [resultBox, setResultBox] = useState({
     disabled: false,
     title: 'Hangman',
@@ -80,7 +83,27 @@ export default () => {
     setWordFromAPI([])
     setWord('')
     getDataFromAPI()
+    setIsGameOver(false)
     inputRef.current.focus()
+  }
+
+  const continueGame = () => {
+    setResultBox({
+      disabled: true,
+    })
+    inputRef.current.focus()
+  }
+
+  const wordSetter = word => {
+    let wordArr = word.toUpperCase().split('')
+    wordArr.map(item => {
+      item === '-' && wordArr.splice(wordArr.indexOf('-'), 1)
+      item === ' ' && wordArr.splice(wordArr.indexOf(' '), 1)
+      return item
+    })
+
+    setWordFromAPI(wordArr)
+    setWord(word)
   }
 
   const getDataFromAPI = () => {
@@ -100,19 +123,31 @@ export default () => {
     fetch(url, {
       method: 'GET',
     })
-      .then(response => response.json())
       .then(response => {
-        const responseWord = response.word
-        let wordArr = responseWord.toUpperCase().split('')
-        wordArr.map(item => {
-          item === '-' && wordArr.splice(wordArr.indexOf('-'), 1)
-          item === ' ' && wordArr.splice(wordArr.indexOf(' '), 1)
-          return item
-        })
-
-        setWordFromAPI(wordArr)
-        setWord(responseWord)
+        const responseStatus = response.status
+        if (responseStatus >= 400 && responseStatus <= 500) {
+          throw Error('API error, creating random word localy!')
+        }
+        return response.json()
+      })
+      .then(response => {
+        wordSetter(response.word)
         return response.status
+      })
+      .catch(error => {
+        console.log(error)
+        const fruits = [
+          'Apple',
+          'Orange',
+          'Pear',
+          'Lemon',
+          'Kiwi',
+          'Watermelon',
+          'Strawberry',
+          'Banana',
+        ]
+        const randomFruit = fruits[Math.floor(Math.random() * fruits.length)]
+        wordSetter(randomFruit)
       })
   }
 
@@ -124,6 +159,7 @@ export default () => {
         title: '★ You Won! ★',
         buttonLabel: 'Restart Game',
       })
+      setIsGameOver(true)
     }
   }
 
@@ -146,9 +182,18 @@ export default () => {
         <DownPipe />
         <Input
           ref={inputRef}
-          onKeyDown={handOnKeyPress}
-          onFocus={() => inputRef.current.focus()}
-          onBlur={() => inputRef.current.focus()}
+          {...(!isGameOver && !isPaused && { onKeyDown: handOnKeyPress })}
+          onFocus={() => setIsPaused(false)}
+          onBlur={() => {
+            if (!isGameOver) {
+              setIsPaused(true)
+              setResultBox({
+                title: 'Game is Paused',
+                disabled: false,
+                buttonLabel: 'continue',
+              })
+            }
+          }}
         />
       </Gallow>
       <Human failedLetterCount={failedLetters.length} />
@@ -165,8 +210,9 @@ export default () => {
         title={resultBox.title}
         disabled={resultBox.disabled}
         buttonLabel={resultBox.buttonLabel}
-        buttonAction={startGame}
+        buttonAction={isPaused ? continueGame : startGame}
       />
+      {!isPaused && <Button pause> Pause Game</Button>}
     </AppWrapper>
   )
 }
